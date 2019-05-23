@@ -4,6 +4,9 @@ Frontend part of arkdelegates.io
 
 # Commands
 
+Install npm dependencies first:
+`npm install`
+
 ## Development
 
 Start development server:
