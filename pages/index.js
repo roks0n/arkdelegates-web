@@ -58,13 +58,13 @@ const ViewMore = styled.a`
 class Home extends React.Component {
 
   static async getInitialProps () {
-    const contributions = await fetch('https://arkdelegates.io/api/contributions/?limit=5')
-    const news = await fetch('https://arkdelegates.io/api/news/?limit=5')
-    const latest = await fetch('https://arkdelegates.io/api/delegates/?latest=1')
-    const contribJson = await contributions.json()
-    const newsJson = await news.json()
-    const latestJson = await latest.json()
-    return { contributions: contribJson.data, news: newsJson.data, latest: latestJson.data }
+    const results = await Promise.all([
+      fetch('https://arkdelegates.io/api/contributions/?limit=5'),
+      fetch('https://arkdelegates.io/api/news/?limit=5'),
+      fetch('https://arkdelegates.io/api/delegates/?latest=1')
+    ])
+    const [ contributions, news, latest ] = await Promise.all(results.map(res => res.json()))
+    return { contributions: contributions.data, news: news.data, latest: latest.data }
   }
 
   render() {
