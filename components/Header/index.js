@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import Link from 'next/link';
+import Link from 'next/link'
 import logo from './ark-logo.svg'
 import HeaderNavigation from '../HeaderNavigation'
 import PageContainer from '../PageContainer'
@@ -43,7 +43,7 @@ const LogoLink = styled.a`
   display: flex;
   align-items: center;
   @media only screen and (max-width: 544px) {
-    margin-top: 0.5em
+    margin-top: 0.5em;
   }
 `
 

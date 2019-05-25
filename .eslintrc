@@ -17,8 +17,9 @@
     "no-console":0,
     "react/jsx-uses-vars": [2]
   },
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "plugins": [
-    "react"
+    "react",
+    "prettier"
   ]
 }

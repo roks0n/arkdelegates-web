@@ -1,7 +1,7 @@
 import React from 'react'
 import fetch from 'isomorphic-unfetch'
 import styled from '@emotion/styled'
-import BigNumber from "bignumber.js"
+import BigNumber from 'bignumber.js'
 import Link from 'next/link'
 import { COLOR_BLACK, COLOR_WHITE } from '../constants'
 import UpdateCard from '../components/UpdateCard'
@@ -44,7 +44,7 @@ const Box = styled.div`
   width: 100%;
   border-radius: 5px;
   padding: 0.5em;
-`;
+`
 
 const ViewMore = styled.a`
   display: flex;
@@ -56,25 +56,25 @@ const ViewMore = styled.a`
 `
 
 class Home extends React.Component {
-
-  static async getInitialProps () {
+  static async getInitialProps() {
     const results = await Promise.all([
       fetch('https://arkdelegates.io/api/contributions/?limit=5'),
       fetch('https://arkdelegates.io/api/news/?limit=5'),
-      fetch('https://arkdelegates.io/api/delegates/?latest=1')
+      fetch('https://arkdelegates.io/api/delegates/?latest=1'),
     ])
-    const [ contributions, news, latest ] = await Promise.all(results.map(res => res.json()))
+    const [contributions, news, latest] = await Promise.all(results.map((res) => res.json()))
     return { contributions: contributions.data, news: news.data, latest: latest.data }
   }
 
   render() {
-    const { contributions, news, latest } = this.props;
+    const { contributions, news, latest } = this.props
 
     const contributionElements = contributions.map((contribution, key) => {
       return (
         <UpdateCard
           key={key}
           avatar={null}
+          slug={contribution.delegate_slug}
           title={contribution.title}
           delegate={contribution.delegate_name}
         />
@@ -83,9 +83,10 @@ class Home extends React.Component {
 
     const newsElements = news.map((item, key) => {
       return (
-         <UpdateCard
+        <UpdateCard
           key={key}
           avatar={null}
+          slug={item.delegate_slug}
           title={item.title}
           delegate={item.delegate_name}
         />
@@ -98,6 +99,7 @@ class Home extends React.Component {
         <DelegateCard
           key={key}
           avatar={null}
+          slug={item.slug}
           name={item.name}
           payoutPercent={item.payout_percent}
           contributionsCount={item.contributions_count}
@@ -115,13 +117,17 @@ class Home extends React.Component {
           <TwoColumns>
             <Title>Latest contributions</Title>
             <Box>{contributionElements}</Box>
-            <Link href="/contributions" passHref><ViewMore>View more</ViewMore></Link>
+            <Link href="/contributions" passHref>
+              <ViewMore>View more</ViewMore>
+            </Link>
           </TwoColumns>
 
           <TwoColumns>
             <Title>Latest updates</Title>
             <Box>{newsElements}</Box>
-            <Link href="/news" passHref><ViewMore>View more</ViewMore></Link>
+            <Link href="/news" passHref>
+              <ViewMore>View more</ViewMore>
+            </Link>
           </TwoColumns>
         </Row>
         <Row>
@@ -133,4 +139,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default Home

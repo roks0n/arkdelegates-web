@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { Link } from '../routes'
 import logo from './ark-logo-light-bg.svg'
 import { COLOR_LIGHT_BLUE } from '../constants'
 
@@ -9,6 +10,7 @@ const Container = styled.div`
   padding-bottom: 0.5em;
   padding-top: 0.5em;
   font-size: 0.9em;
+  cursor: pointer;
 
   &:first-of-type {
     padding-top: 0em;
@@ -18,7 +20,7 @@ const Container = styled.div`
     padding-bottom: 0em;
     border-bottom: 0;
   }
-`;
+`
 
 const Image = styled.div`
   width: 60px;
@@ -39,27 +41,31 @@ const Image = styled.div`
     width: 40px;
     height: 40px;
   }
-`;
+`
 
 const Span = styled.span`
-  color: #9EA0A5;
+  color: #9ea0a5;
   font-size: 0.8em;
   display: block;
-`;
+`
 
 const P = styled.p`
   margin: 0;
   padding: 0;
   flex-shrink: 1;
   width: 100%;
-`;
+`
 
-function ContributionCard({ avatar, title, delegate }) {
+function ContributionCard({ avatar, slug, title, delegate }) {
   return (
-    <Container>
-      <Image image={avatar}/>
-      <P>{title} <Span>by {delegate}</Span></P>
-    </Container>
+    <Link route={`/delegate/${slug}`}>
+      <Container>
+        <Image image={avatar} />
+        <P>
+          {title} <Span>by {delegate}</Span>
+        </P>
+      </Container>
+    </Link>
   )
 }
 

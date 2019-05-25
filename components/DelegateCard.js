@@ -1,11 +1,12 @@
 import styled from '@emotion/styled'
+import Link from 'next/link'
 import { Icon } from 'react-icons-kit'
 import { checkmark } from 'react-icons-kit/icomoon/checkmark'
 import { cross } from 'react-icons-kit/icomoon/cross'
 import logo from './ark-logo-light-bg.svg'
-import { COLOR_LIGHT_BLUE, COLOR_RED, COLOR_GREEN } from '../constants'
+import { COLOR_BLACK, COLOR_LIGHT_BLUE, COLOR_RED, COLOR_GREEN } from '../constants'
 
-const Container = styled.div`
+const Container = styled.a`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -14,6 +15,10 @@ const Container = styled.div`
   padding-bottom: 0.5em;
   padding-top: 0.5em;
   font-size: 0.9em;
+  cursor: pointer;
+
+  text-decoration: none;
+  color: ${COLOR_BLACK};
 
   &:first-of-type {
     padding-top: 0em;
@@ -27,7 +32,7 @@ const Container = styled.div`
   @media only screen and (max-width: 750px) {
     border-bottom: 0;
   }
-`;
+`
 
 const Image = styled.div`
   width: 60px;
@@ -50,7 +55,7 @@ const Image = styled.div`
     height: 45px;
     border: 0;
   }
-`;
+`
 
 const Item = styled.div`
   width: 180px;
@@ -89,7 +94,7 @@ const Data = styled.div`
 `
 
 const DataInner = styled.div`
-  width: 100%
+  width: 100%;
 `
 
 const H4 = styled.h4`
@@ -112,51 +117,79 @@ const P = styled.p`
 `
 
 function DelegateCard({
-  avatar, name, payoutPercent, contributionsCount, isPrivate, votersCount, voteWeight, isForging
+  avatar,
+  name,
+  slug,
+  payoutPercent,
+  contributionsCount,
+  isPrivate,
+  votersCount,
+  voteWeight,
+  isForging,
 }) {
   return (
-    <Container>
-      <Item>
-        <Image image={avatar}/>
-        <div>{name}</div>
-      </Item>
-      <Data>
-        <DataInner>
-          <H4>Contributes</H4>
-          <P>{contributionsCount > 0 ? <Icon size={15} icon={checkmark} style={{color: COLOR_GREEN}} /> : <Icon size={15} icon={cross} style={{color: COLOR_RED}} />}</P>
-        </DataInner>
-      </Data>
-      <Data>
-        <DataInner>
-          <H4>Shares rewards</H4>
-          <P>{isPrivate ? <Icon size={15} icon={cross} style={{color: COLOR_RED}} /> : <Icon size={15} icon={checkmark} style={{color: COLOR_GREEN}} />}</P>
-        </DataInner>
-      </Data>
-      <Data>
-        <DataInner>
-          <H4>Payout</H4>
-          <P>{payoutPercent ? `${payoutPercent}%` : `unknown`}</P>
-        </DataInner>
-      </Data>
-      <Data>
-        <DataInner>
-          <H4>Voters</H4>
-          <P>{votersCount}</P>
-        </DataInner>
-      </Data>
-      <Data>
-        <DataInner>
-          <H4>Vote weight</H4>
-          <P>{voteWeight}</P>
-        </DataInner>
-      </Data>
-      <Data>
-        <DataInner>
-          <H4>Forging</H4>
-          <P>{isForging ? <Icon size={15} icon={checkmark} style={{color: COLOR_GREEN}} /> : <Icon size={15} icon={cross} style={{color: COLOR_RED}} />}</P>
-        </DataInner>
-      </Data>
-    </Container>
+    <Link href={`/delegate/${slug}`} passHref>
+      <Container>
+        <Item>
+          <Image image={avatar} />
+          <div>{name}</div>
+        </Item>
+        <Data>
+          <DataInner>
+            <H4>Contributes</H4>
+            <P>
+              {contributionsCount > 0 ? (
+                <Icon size={15} icon={checkmark} style={{ color: COLOR_GREEN }} />
+              ) : (
+                <Icon size={15} icon={cross} style={{ color: COLOR_RED }} />
+              )}
+            </P>
+          </DataInner>
+        </Data>
+        <Data>
+          <DataInner>
+            <H4>Shares rewards</H4>
+            <P>
+              {isPrivate ? (
+                <Icon size={15} icon={cross} style={{ color: COLOR_RED }} />
+              ) : (
+                <Icon size={15} icon={checkmark} style={{ color: COLOR_GREEN }} />
+              )}
+            </P>
+          </DataInner>
+        </Data>
+        <Data>
+          <DataInner>
+            <H4>Payout</H4>
+            <P>{payoutPercent ? `${payoutPercent}%` : `unknown`}</P>
+          </DataInner>
+        </Data>
+        <Data>
+          <DataInner>
+            <H4>Voters</H4>
+            <P>{votersCount}</P>
+          </DataInner>
+        </Data>
+        <Data>
+          <DataInner>
+            <H4>Vote weight</H4>
+            <P>{voteWeight}</P>
+          </DataInner>
+        </Data>
+        <Data>
+          <DataInner>
+            <H4>Forging</H4>
+            <P>
+              {isForging ? (
+                <Icon size={15} icon={checkmark} style={{ color: COLOR_GREEN }} />
+              ) : (
+                <Icon size={15} icon={cross} style={{ color: COLOR_RED }} />
+              )}
+            </P>
+          </DataInner>
+        </Data>
+      </Container>
+    </Link>
   )
 }
 
