@@ -28,10 +28,6 @@ const Container = styled.a`
     padding-bottom: 0em;
     border-bottom: 0;
   }
-
-  @media only screen and (max-width: 750px) {
-    border-bottom: 0;
-  }
 `
 
 const Image = styled.div`
@@ -68,7 +64,6 @@ const Item = styled.div`
     margin-right: 0.25em;
     background: #fbfbfb;
     border-radius: 4px;
-    border: 1px solid ${COLOR_LIGHT_BLUE};
   }
 `
 

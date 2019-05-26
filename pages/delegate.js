@@ -5,12 +5,14 @@ import styled from '@emotion/styled'
 import BigNumber from 'bignumber.js'
 import logo from '../components/ark-logo-light-bg.svg'
 import TabNav from '../components/TabNav'
+import DelegateUpdateCard from '../components/DelegateUpdateCard'
 import { Icon } from 'react-icons-kit'
 import { checkmark } from 'react-icons-kit/icomoon/checkmark'
+import { ic_info } from 'react-icons-kit/md/ic_info'
 import { cross } from 'react-icons-kit/icomoon/cross'
 import { COLOR_BLACK, COLOR_WHITE, COLOR_LIGHT_BLUE, COLOR_RED, COLOR_GREEN } from '../constants'
 import showdown from 'showdown'
-import moment from 'moment'
+import Floater from 'react-floater'
 
 const Title = styled.h2`
   color: ${COLOR_BLACK};
@@ -168,7 +170,7 @@ const Content = styled.div`
     padding: 1em;
   }
 
-  > p,
+  > * > p,
   h1,
   h2,
   h3,
@@ -254,7 +256,6 @@ class Delegate extends React.Component {
     } = this.props
 
     const voteWeight = new BigNumber(votingPower).div(100000000).toFormat(0)
-    const markdown = new showdown.Converter()
 
     const tabItems = [
       {
@@ -281,27 +282,56 @@ class Delegate extends React.Component {
     if (content && content.length) {
       tabContent = content.map((item, key) => {
         const content = item.description || item.message
-        const contentHtml = markdown.makeHtml(content)
         return (
-          <div
+          <DelegateUpdateCard
             key={key}
-            style={{
-              borderBottom: `1px solid ${COLOR_LIGHT_BLUE}`,
-              marginTop: '1em',
-            }}
-          >
-            <h3 style={{ marginBottom: '0.5em', marginTop: '0.5em' }}>{item.title}</h3>
-            <small>Published: {moment(item.created).format('LL')}</small>
-            <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-          </div>
+            title={item.title}
+            content={content}
+            created={item.created}
+          />
         )
       })
     } else if (content && !content.length) {
       tabContent = 'Not data yet.'
     } else {
+      const markdown = new showdown.Converter()
       const proposalHtml = markdown.makeHtml(proposal)
       tabContent = <div dangerouslySetInnerHTML={{ __html: proposalHtml }} />
     }
+
+    const voteTooltip = (
+      <Floater
+        content={<div>This number excludes all voters with 0 ARK in their wallet</div>}
+        offset={3}
+        disableHoverToClick
+        event="hover"
+        eventDelay={0}
+        styles={{
+          arrow: {
+            spread: 10,
+            length: 7,
+          },
+          container: {
+            padding: '0.5em',
+            height: 'auto',
+            minHeight: 'auto',
+            color: COLOR_BLACK,
+            fontSize: '0.8em',
+            borderRadius: '4px',
+          },
+          floater: {
+            filter: 'drop-shadow(0 0 3px rgba(0, 0, 0, 0.1))',
+            maxWidth: 250,
+          },
+        }}
+      >
+        <Icon
+          size={12}
+          icon={ic_info}
+          style={{ color: COLOR_BLACK, marginLeft: '2px', position: 'relative', top: '-1px' }}
+        />
+      </Floater>
+    )
 
     return (
       <React.Fragment>
@@ -340,7 +370,7 @@ class Delegate extends React.Component {
                   <DataInner>
                     <H4>Voters</H4>
                     <P>
-                      {voters} ({nonZeroVoters})
+                      {voters} ({nonZeroVoters} {voteTooltip})
                     </P>
                   </DataInner>
                 </Data>
@@ -401,7 +431,7 @@ class Delegate extends React.Component {
                 <Data>
                   <DataInner>
                     <H4>Payout interval</H4>
-                    <P>{payoutInterval}</P>
+                    <P>{payoutInterval ? payoutInterval : `unknown`}</P>
                   </DataInner>
                 </Data>
               </Container>

@@ -10,6 +10,7 @@ const NavLink = styled.a`
   padding-top: 1.2em;
   padding-bottom: 1.2em;
   color: ${(props) => (props.isActive ? COLOR_RED : COLOR_WHITE)};
+  font-weight: ${(props) => (props.isActive ? 400 : 300)};
 
   @media only screen and (max-width: 544px) {
     font-size: 1em;
