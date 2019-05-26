@@ -74,7 +74,7 @@ class Home extends React.Component {
         <UpdateCard
           key={key}
           avatar={null}
-          slug={contribution.delegate_slug}
+          slug={contribution.delegate_name}
           title={contribution.title}
           delegate={contribution.delegate_name}
         />
@@ -86,7 +86,7 @@ class Home extends React.Component {
         <UpdateCard
           key={key}
           avatar={null}
-          slug={item.delegate_slug}
+          slug={item.delegate_name}
           title={item.title}
           delegate={item.delegate_name}
         />
@@ -123,7 +123,7 @@ class Home extends React.Component {
           </TwoColumns>
 
           <TwoColumns>
-            <Title>Latest updates</Title>
+            <Title>Latest news</Title>
             <Box>{newsElements}</Box>
             <Link href="/news" passHref>
               <ViewMore>View more</ViewMore>

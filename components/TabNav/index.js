@@ -13,10 +13,10 @@ const Container = styled.div`
   margin: 0;
 `
 
-function Nav({ items }) {
+function TabNav({ items }) {
   const links = items.map((item, key) => {
     return (
-      <ActiveLink key={key} href={item.href}>
+      <ActiveLink key={key} routeName={item.routeName} slug={item.slug} href={item.href}>
         {item.name}
       </ActiveLink>
     )
@@ -24,4 +24,4 @@ function Nav({ items }) {
   return <Container>{links}</Container>
 }
 
-export default Nav
+export default TabNav

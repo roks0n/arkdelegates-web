@@ -1,9 +1,9 @@
 import styled from '@emotion/styled'
 import { Link } from '../routes'
 import logo from './ark-logo-light-bg.svg'
-import { COLOR_LIGHT_BLUE } from '../constants'
+import { COLOR_LIGHT_BLUE, COLOR_BLACK } from '../constants'
 
-const Container = styled.div`
+const Container = styled.a`
   display: flex;
   align-items: center;
   border-bottom: 1px solid ${COLOR_LIGHT_BLUE};
@@ -11,6 +11,8 @@ const Container = styled.div`
   padding-top: 0.5em;
   font-size: 0.9em;
   cursor: pointer;
+  text-decoration: none;
+  color: ${COLOR_BLACK};
 
   &:first-of-type {
     padding-top: 0em;
@@ -58,7 +60,7 @@ const P = styled.p`
 
 function ContributionCard({ avatar, slug, title, delegate }) {
   return (
-    <Link route={`/delegate/${slug}`}>
+    <Link route={'delegate-news'} params={{ slug }} passHref>
       <Container>
         <Image image={avatar} />
         <P>

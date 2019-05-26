@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import Link from 'next/link'
+import { Link } from '../routes'
 import { Icon } from 'react-icons-kit'
 import { checkmark } from 'react-icons-kit/icomoon/checkmark'
 import { cross } from 'react-icons-kit/icomoon/cross'
@@ -128,7 +128,7 @@ function DelegateCard({
   isForging,
 }) {
   return (
-    <Link href={`/delegate/${slug}`} passHref>
+    <Link route={'delegate'} params={{ slug }} passHref>
       <Container>
         <Item>
           <Image image={avatar} />

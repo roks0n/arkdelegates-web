@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '../../routes'
 import { withRouter } from 'next/router'
 import styled from '@emotion/styled'
 import { COLOR_RED, COLOR_WHITE } from '../../constants'
@@ -13,9 +13,9 @@ const NavLink = styled.a`
   color: ${(props) => (props.isActive ? COLOR_RED : COLOR_WHITE)};
 `
 
-function ActiveLink({ children, router, href }) {
+function ActiveLink({ children, router, routeName, slug, href }) {
   return (
-    <Link href={href} passHref>
+    <Link route={routeName} params={{ slug }} passHref>
       <NavLink isActive={router.asPath === href}>{children}</NavLink>
     </Link>
   )

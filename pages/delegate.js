@@ -4,12 +4,13 @@ import fetch from 'isomorphic-unfetch'
 import styled from '@emotion/styled'
 import BigNumber from 'bignumber.js'
 import logo from '../components/ark-logo-light-bg.svg'
-import Tabbed from '../components/Tabbed'
+import TabNav from '../components/TabNav'
 import { Icon } from 'react-icons-kit'
 import { checkmark } from 'react-icons-kit/icomoon/checkmark'
 import { cross } from 'react-icons-kit/icomoon/cross'
 import { COLOR_BLACK, COLOR_WHITE, COLOR_LIGHT_BLUE, COLOR_RED, COLOR_GREEN } from '../constants'
 import showdown from 'showdown'
+import moment from 'moment'
 
 const Title = styled.h2`
   color: ${COLOR_BLACK};
@@ -155,6 +156,33 @@ const TabContainer = styled.div`
   margin-top: 1.5em;
 `
 
+const Content = styled.div`
+  padding: 1em;
+
+  a {
+    text-decoration: none;
+    color: ${COLOR_RED};
+  }
+
+  > {
+    padding: 1em;
+  }
+
+  > p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6:first-of-type {
+    margin-top: 0;
+  }
+
+  li {
+    margin: 0.3em 0;
+  }
+`
+
 class Delegate extends React.Component {
   static async getInitialProps({ ctx }) {
     const { query, res } = ctx
@@ -165,10 +193,23 @@ class Delegate extends React.Component {
       }
       return {}
     }
-
+    // TODO: do requests in parallel
     const delegate = await fetch(`https://arkdelegates.io/api/delegates/${query.slug}/`).then(
       (res) => res.json()
     )
+
+    let content = null
+    if (ctx.asPath.includes('contributions')) {
+      const contributions = await fetch(
+        `https://arkdelegates.io/api/contributions?delegate_slug=${query.slug}`
+      ).then((res) => res.json())
+      content = contributions.data
+    } else if (ctx.asPath.includes('news')) {
+      const contributions = await fetch(
+        `https://arkdelegates.io/api/news?delegate_slug=${query.slug}`
+      ).then((res) => res.json())
+      content = contributions.data
+    }
 
     return {
       name: delegate.name,
@@ -186,6 +227,7 @@ class Delegate extends React.Component {
       address: delegate.address,
       pathName: ctx.pathname,
       slug: ctx.query.slug,
+      content,
     }
   }
 
@@ -208,29 +250,58 @@ class Delegate extends React.Component {
       proposal,
       pathName,
       slug,
+      content,
     } = this.props
 
     const voteWeight = new BigNumber(votingPower).div(100000000).toFormat(0)
     const markdown = new showdown.Converter()
-    const proposalHtml = markdown.makeHtml(proposal)
 
     const tabItems = [
       {
         name: 'Proposal',
         href: `${pathName}/${slug}`,
-        content: proposalHtml,
+        routeName: 'delegate',
+        slug: slug,
       },
       {
         name: 'Contributions',
         href: `${pathName}/${slug}/contributions`,
-        content: 'Hello Contributions',
+        routeName: 'delegate-contributions',
+        slug: slug,
       },
       {
         name: 'News',
         href: `${pathName}/${slug}/news`,
-        content: 'Hello News',
+        routeName: 'delegate-news',
+        slug: slug,
       },
     ]
+
+    let tabContent = null
+    if (content && content.length) {
+      tabContent = content.map((item, key) => {
+        const content = item.description || item.message
+        const contentHtml = markdown.makeHtml(content)
+        return (
+          <div
+            key={key}
+            style={{
+              borderBottom: `1px solid ${COLOR_LIGHT_BLUE}`,
+              marginTop: '1em',
+            }}
+          >
+            <h3 style={{ marginBottom: '0.5em', marginTop: '0.5em' }}>{item.title}</h3>
+            <small>Published: {moment(item.created).format('LL')}</small>
+            <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+          </div>
+        )
+      })
+    } else if (content && !content.length) {
+      tabContent = 'Not data yet.'
+    } else {
+      const proposalHtml = markdown.makeHtml(proposal)
+      tabContent = <div dangerouslySetInnerHTML={{ __html: proposalHtml }} />
+    }
 
     return (
       <React.Fragment>
@@ -339,7 +410,8 @@ class Delegate extends React.Component {
         </Row>
         <Row>
           <TabContainer>
-            <Tabbed items={tabItems} />
+            <TabNav items={tabItems} />
+            <Content>{tabContent}</Content>
           </TabContainer>
         </Row>
       </React.Fragment>
