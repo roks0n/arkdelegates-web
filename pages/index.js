@@ -1,4 +1,5 @@
 import React from 'react'
+import Head from 'next/head'
 import fetch from 'isomorphic-unfetch'
 import styled from '@emotion/styled'
 import BigNumber from 'bignumber.js'
@@ -113,6 +114,13 @@ class Home extends React.Component {
 
     return (
       <React.Fragment>
+        <Head>
+          <title>ARK delegates - Find and follow ARK delegates</title>
+          <meta
+            name="description"
+            content="Find ARK delegates you want to support. See what they are doing, what have they done and follow their progress."
+          />
+        </Head>
         <Row>
           <TwoColumns>
             <Title>Latest contributions</Title>

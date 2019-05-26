@@ -1,4 +1,5 @@
 import React from 'react'
+import Head from 'next/head'
 import Error from 'next/error'
 import fetch from 'isomorphic-unfetch'
 import styled from '@emotion/styled'
@@ -200,17 +201,20 @@ class Delegate extends React.Component {
       (res) => res.json()
     )
 
+    let pageType = 'proposal'
     let content = null
     if (ctx.asPath.includes('contributions')) {
       const contributions = await fetch(
         `https://arkdelegates.io/api/contributions?delegate_slug=${query.slug}`
       ).then((res) => res.json())
       content = contributions.data
+      pageType = 'contributions'
     } else if (ctx.asPath.includes('news')) {
       const contributions = await fetch(
         `https://arkdelegates.io/api/news?delegate_slug=${query.slug}`
       ).then((res) => res.json())
       content = contributions.data
+      pageType = 'news'
     }
 
     return {
@@ -230,6 +234,7 @@ class Delegate extends React.Component {
       pathName: ctx.pathname,
       slug: ctx.query.slug,
       content,
+      pageType,
     }
   }
 
@@ -253,6 +258,7 @@ class Delegate extends React.Component {
       pathName,
       slug,
       content,
+      pageType,
     } = this.props
 
     const voteWeight = new BigNumber(votingPower).div(100000000).toFormat(0)
@@ -304,7 +310,7 @@ class Delegate extends React.Component {
         content={<div>This number excludes all voters with 0 ARK in their wallet</div>}
         offset={3}
         disableHoverToClick
-        event="hover"
+        event={'hover'}
         eventDelay={0}
         styles={{
           arrow: {
@@ -333,8 +339,29 @@ class Delegate extends React.Component {
       </Floater>
     )
 
+    let metaTitle = null
+    let metaDescription = null
+    switch (pageType) {
+      case 'news':
+        metaTitle = `Delegate ${name}'s news @ ARKdelegates.io`
+        metaDescription = `Check if delegate ${name} posted any news or updates recently.`
+        break
+      case 'contributions':
+        metaTitle = `Delegate ${name}'s contributions @ ARKdelegates.io`
+        metaDescription = `Check if delegate ${name} made any new contributions.`
+        break
+      default:
+        metaTitle = `Delegate ${name} @ ARKdelegates.io`
+        metaDescription = `Check what ${name} delegate has done for the Ark community, how many nodes it runs and what&#39;s the proposal.`
+        break
+    }
+
     return (
       <React.Fragment>
+        <Head>
+          <title>{metaTitle}</title>
+          <meta name="description" content={metaDescription} />
+        </Head>
         <Item>
           <Image image={null} />
           <div style={{ width: '100%', overflow: 'hidden' }}>
