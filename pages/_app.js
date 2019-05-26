@@ -1,4 +1,5 @@
-import App, { Container } from 'next/app'
+import App from 'next/app'
+import styled from '@emotion/styled'
 import { css, Global } from '@emotion/core'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -6,6 +7,13 @@ import PageContainer from '../components/PageContainer'
 import { COLOR_BLACK, COLOR_LIGHT_BLUE } from '../constants'
 
 import 'normalize.css'
+
+const AppContainer = styled.div`
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`
 
 class Arkdelegates extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -21,7 +29,7 @@ class Arkdelegates extends App {
     const { Component, pageProps } = this.props
 
     return (
-      <Container>
+      <AppContainer>
         <Global
           styles={css`
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
@@ -32,6 +40,8 @@ class Arkdelegates extends App {
               background-color: ${COLOR_LIGHT_BLUE};
               font-weight: 400;
               color: ${COLOR_BLACK};
+              height: 100%;
+              min-height: 100%;
             }
 
             body {
@@ -41,6 +51,11 @@ class Arkdelegates extends App {
             div {
               box-sizing: border-box;
             }
+
+            #__next {
+              height: 100%;
+              min-height: 100%;
+            }
           `}
         />
         <Header />
@@ -48,7 +63,7 @@ class Arkdelegates extends App {
           <Component {...pageProps} />
         </PageContainer>
         <Footer />
-      </Container>
+      </AppContainer>
     )
   }
 }

@@ -6,6 +6,7 @@ const PageContainer = styled.div`
   margin: auto;
   padding-left: 0.5em;
   padding-right: 0.5em;
+  flex-grow: 1;
 `
 
 export default PageContainer

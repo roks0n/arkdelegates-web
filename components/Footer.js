@@ -7,6 +7,7 @@ const Container = styled.div`
   display: table;
   align-items: center;
   margin-top: 2em;
+  flex-shrink: 0;
 `
 
 const Inner = styled.div`
