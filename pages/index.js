@@ -78,6 +78,7 @@ class Home extends React.Component {
           slug={contribution.delegate_name}
           title={contribution.title}
           delegate={contribution.delegate_name}
+          routeName={'delegate-contributions'}
         />
       )
     })
@@ -90,6 +91,7 @@ class Home extends React.Component {
           slug={item.delegate_name}
           title={item.title}
           delegate={item.delegate_name}
+          routeName={'delegate-news'}
         />
       )
     })
@@ -108,6 +110,7 @@ class Home extends React.Component {
           votersCount={item.voters}
           voteWeight={voteWeight}
           isForging={item.rank <= 51 ? true : false}
+          isAccountClaimed={item.user_id ? true : false}
         />
       )
     })

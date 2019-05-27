@@ -11,6 +11,7 @@ import { Icon } from 'react-icons-kit'
 import { checkmark } from 'react-icons-kit/icomoon/checkmark'
 import { ic_info } from 'react-icons-kit/md/ic_info'
 import { cross } from 'react-icons-kit/icomoon/cross'
+import { certificate } from 'react-icons-kit/fa/certificate'
 import { COLOR_BLACK, COLOR_WHITE, COLOR_LIGHT_BLUE, COLOR_RED, COLOR_GREEN } from '../constants'
 import showdown from 'showdown'
 import Floater from 'react-floater'
@@ -233,6 +234,7 @@ class Delegate extends React.Component {
       address: delegate.address,
       pathName: ctx.pathname,
       slug: ctx.query.slug,
+      isAccountClaimed: delegate.user_id || false,
       content,
       pageType,
     }
@@ -257,11 +259,15 @@ class Delegate extends React.Component {
       proposal,
       pathName,
       slug,
+      isAccountClaimed,
       content,
       pageType,
     } = this.props
 
     const voteWeight = new BigNumber(votingPower).div(100000000).toFormat(0)
+    // have to div by 10000, because I made a derp when storing data
+    const payoutMinimum = payoutMin ? new BigNumber(payoutMin).div(10000).toFormat() : 0
+    const payoutMaximum = payoutMax ? new BigNumber(payoutMax).div(10000).toFormat() : 0
 
     const tabItems = [
       {
@@ -301,7 +307,9 @@ class Delegate extends React.Component {
       tabContent = 'Not data yet.'
     } else {
       const markdown = new showdown.Converter()
-      const proposalHtml = markdown.makeHtml(proposal)
+      const proposalHtml = markdown.makeHtml(
+        proposal || `This delegate hasn't written or published its proposal yet.`
+      )
       tabContent = <div dangerouslySetInnerHTML={{ __html: proposalHtml }} />
     }
 
@@ -339,6 +347,40 @@ class Delegate extends React.Component {
       </Floater>
     )
 
+    const verifiedTooltip = isAccountClaimed && (
+      <Floater
+        content={<div>This delegate's account has been claimed</div>}
+        offset={3}
+        disableHoverToClick
+        event={'hover'}
+        eventDelay={0}
+        styles={{
+          arrow: {
+            spread: 10,
+            length: 7,
+          },
+          container: {
+            padding: '0.5em',
+            height: 'auto',
+            minHeight: 'auto',
+            color: COLOR_BLACK,
+            fontSize: '0.8em',
+            borderRadius: '4px',
+          },
+          floater: {
+            filter: 'drop-shadow(0 0 3px rgba(0, 0, 0, 0.1))',
+            maxWidth: 250,
+          },
+        }}
+      >
+        <Icon
+          size={15}
+          icon={certificate}
+          style={{ color: COLOR_RED, marginLeft: '2px', position: 'relative', top: '-7px' }}
+        />
+      </Floater>
+    )
+
     let metaTitle = null
     let metaDescription = null
     switch (pageType) {
@@ -365,7 +407,10 @@ class Delegate extends React.Component {
         <Item>
           <Image image={null} />
           <div style={{ width: '100%', overflow: 'hidden' }}>
-            <Title>{name}</Title>
+            <Title>
+              {name}
+              {verifiedTooltip}
+            </Title>
             <Address>
               Address: <span>{address}</span>
             </Address>
@@ -397,7 +442,7 @@ class Delegate extends React.Component {
                   <DataInner>
                     <H4>Voters</H4>
                     <P>
-                      {voters} ({nonZeroVoters} {voteTooltip})
+                      {voters} ({nonZeroVoters || 0} {voteTooltip})
                     </P>
                   </DataInner>
                 </Data>
@@ -446,13 +491,13 @@ class Delegate extends React.Component {
                 <Data>
                   <DataInner>
                     <H4>Payout min</H4>
-                    <P>{payoutMin ? payoutMin.toString() : 0}</P>
+                    <P>{payoutMinimum}</P>
                   </DataInner>
                 </Data>
                 <Data>
                   <DataInner>
                     <H4>Payout max</H4>
-                    <P>{payoutMax ? payoutMax.toString() : 0}</P>
+                    <P>{payoutMaximum}</P>
                   </DataInner>
                 </Data>
                 <Data>

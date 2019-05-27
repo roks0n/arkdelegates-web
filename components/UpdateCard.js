@@ -58,9 +58,9 @@ const P = styled.p`
   width: 100%;
 `
 
-function ContributionCard({ avatar, slug, title, delegate }) {
+function UpdateCard({ avatar, slug, title, delegate, routeName }) {
   return (
-    <Link route={'delegate-news'} params={{ slug }} passHref>
+    <Link route={routeName} params={{ slug }} passHref>
       <Container>
         <Image image={avatar} />
         <P>
@@ -71,4 +71,4 @@ function ContributionCard({ avatar, slug, title, delegate }) {
   )
 }
 
-export default ContributionCard
+export default UpdateCard

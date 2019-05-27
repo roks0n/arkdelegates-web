@@ -1,8 +1,10 @@
 import styled from '@emotion/styled'
+import Floater from 'react-floater'
 import { Link } from '../routes'
 import { Icon } from 'react-icons-kit'
 import { checkmark } from 'react-icons-kit/icomoon/checkmark'
 import { cross } from 'react-icons-kit/icomoon/cross'
+import { certificate } from 'react-icons-kit/fa/certificate'
 import logo from './ark-logo-light-bg.svg'
 import { COLOR_BLACK, COLOR_LIGHT_BLUE, COLOR_RED, COLOR_GREEN } from '../constants'
 
@@ -121,13 +123,51 @@ function DelegateCard({
   votersCount,
   voteWeight,
   isForging,
+  isAccountClaimed,
 }) {
+  const verifiedTooltip = isAccountClaimed && (
+    <Floater
+      content={<div>This delegate's account has been claimed</div>}
+      offset={3}
+      disableHoverToClick
+      event={'hover'}
+      eventDelay={0}
+      styles={{
+        arrow: {
+          spread: 10,
+          length: 7,
+        },
+        container: {
+          padding: '0.5em',
+          height: 'auto',
+          minHeight: 'auto',
+          color: COLOR_BLACK,
+          fontSize: '0.8em',
+          borderRadius: '4px',
+        },
+        floater: {
+          filter: 'drop-shadow(0 0 3px rgba(0, 0, 0, 0.1))',
+          maxWidth: 250,
+        },
+      }}
+    >
+      <Icon
+        size={8}
+        icon={certificate}
+        style={{ color: COLOR_RED, marginLeft: '2px', position: 'relative', top: '-7px' }}
+      />
+    </Floater>
+  )
+
   return (
     <Link route={'delegate'} params={{ slug }} passHref>
       <Container>
         <Item>
           <Image image={avatar} />
-          <div>{name}</div>
+          <div>
+            {name}
+            {verifiedTooltip}
+          </div>
         </Item>
         <Data>
           <DataInner>
