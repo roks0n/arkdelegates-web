@@ -25,11 +25,22 @@ const P = styled.p`
   text-align: right;
 `
 
+const A = styled.a`
+  color: ${COLOR_WHITE};
+  text-decoration: none;
+`
+
 function Footer() {
   return (
     <Container>
       <Inner>
-        <P>Delegate Login | Github | v0.9.0</P>
+        <P>
+          Delegate Login |{' '}
+          <A href="https://github.com/deadlock-delegate/arkdelegates-web/" target="_blank">
+            Github
+          </A>{' '}
+          | v0.9.0
+        </P>
       </Inner>
     </Container>
   )

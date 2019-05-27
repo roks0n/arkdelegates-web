@@ -3,7 +3,6 @@ import Head from 'next/head'
 import fetch from 'isomorphic-unfetch'
 import styled from '@emotion/styled'
 import BigNumber from 'bignumber.js'
-import Link from 'next/link'
 import { COLOR_BLACK, COLOR_WHITE } from '../constants'
 import UpdateCard from '../components/UpdateCard'
 import DelegateCard from '../components/DelegateCard'
@@ -45,15 +44,6 @@ const Box = styled.div`
   width: 100%;
   border-radius: 5px;
   padding: 0.5em;
-`
-
-const ViewMore = styled.a`
-  display: flex;
-  justify-content: center;
-  color: ${COLOR_BLACK};
-  text-decoration: none;
-  text-align: center;
-  margin-top: 0.5em;
 `
 
 class Home extends React.Component {
@@ -128,17 +118,11 @@ class Home extends React.Component {
           <TwoColumns>
             <Title>Latest contributions</Title>
             <Box>{contributionElements}</Box>
-            <Link href="/contributions" passHref>
-              <ViewMore>View more</ViewMore>
-            </Link>
           </TwoColumns>
 
           <TwoColumns>
             <Title>Latest news</Title>
             <Box>{newsElements}</Box>
-            <Link href="/news" passHref>
-              <ViewMore>View more</ViewMore>
-            </Link>
           </TwoColumns>
         </Row>
         <Row>

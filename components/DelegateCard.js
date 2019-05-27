@@ -124,10 +124,11 @@ function DelegateCard({
   voteWeight,
   isForging,
   isAccountClaimed,
+  rank,
 }) {
   const verifiedTooltip = isAccountClaimed && (
     <Floater
-      content={<div>This delegate's account has been claimed</div>}
+      content={<span>This delegate's account has been claimed</span>}
       offset={3}
       disableHoverToClick
       event={'hover'}
@@ -165,6 +166,7 @@ function DelegateCard({
         <Item>
           <Image image={avatar} />
           <div>
+            {rank ? `${rank}. ` : null}
             {name}
             {verifiedTooltip}
           </div>

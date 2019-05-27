@@ -11,8 +11,6 @@ function HeaderNavigation() {
   return (
     <Container>
       <ActiveLink href="/">Home</ActiveLink>
-      <ActiveLink href="/contributions">Contributions</ActiveLink>
-      <ActiveLink href="/news">News</ActiveLink>
       <ActiveLink href="/delegates">Delegates</ActiveLink>
     </Container>
   )

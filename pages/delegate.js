@@ -185,6 +185,10 @@ const Content = styled.div`
   li {
     margin: 0.3em 0;
   }
+
+  img {
+    width: 100%;
+  }
 `
 
 class Delegate extends React.Component {
