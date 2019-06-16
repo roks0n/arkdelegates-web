@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styled from '@emotion/styled'
 import { COLOR_BLACK, COLOR_WHITE } from '../constants'
 
@@ -35,7 +36,10 @@ function Footer() {
     <Container>
       <Inner>
         <P>
-          Delegate Login |{' '}
+          <Link href="/auth/login" passHref>
+            <A>Delegate Login</A>
+          </Link>{' '}
+          |{' '}
           <A href="https://github.com/deadlock-delegate/arkdelegates-web/" target="_blank">
             Github
           </A>{' '}

@@ -3,7 +3,7 @@ import Head from 'next/head'
 import fetch from 'isomorphic-unfetch'
 import styled from '@emotion/styled'
 import BigNumber from 'bignumber.js'
-import { COLOR_BLACK, COLOR_WHITE } from '../constants'
+import { COLOR_BLACK, COLOR_WHITE, API_URL } from '../constants'
 import DelegateCard from '../components/DelegateCard'
 import InfiniteScroll from 'react-infinite-scroller'
 
@@ -45,9 +45,7 @@ class Delegates extends React.Component {
   }
 
   static async getInitialProps() {
-    const delegates = await fetch(`https://arkdelegates.io/api/delegates/?page=1`).then((res) =>
-      res.json()
-    )
+    const delegates = await fetch(`${API_URL}delegates/?page=1`).then((res) => res.json())
     return {
       delegates: delegates.data,
       currentPage: delegates.current_page,
@@ -63,9 +61,9 @@ class Delegates extends React.Component {
   }
 
   async loadNextPage() {
-    const delegates = await fetch(
-      `https://arkdelegates.io/api/delegates/?page=${this.state.currentPage + 1}`
-    ).then((res) => res.json())
+    const delegates = await fetch(`${API_URL}delegates/?page=${this.state.currentPage + 1}`).then(
+      (res) => res.json()
+    )
     this.setState({
       delegates: [...this.state.delegates, ...delegates.data],
       currentPage: delegates.current_page,

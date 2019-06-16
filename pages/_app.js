@@ -1,12 +1,22 @@
 import App from 'next/app'
+import Router from 'next/router'
 import styled from '@emotion/styled'
 import { css, Global } from '@emotion/core'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import PageContainer from '../components/PageContainer'
 import { COLOR_BLACK, COLOR_LIGHT_BLUE } from '../constants'
+import * as gtag from '../lib/gtag'
 
 import 'normalize.css'
+
+Router.events.on('routeChangeComplete', (url) => {
+  // this is a hack to fix: https://github.com/zeit/next.js/issues/6025
+  setTimeout(() => {
+    if (!window) return
+    gtag.pageview(url)
+  }, 0)
+})
 
 const AppContainer = styled.div`
   min-height: 100%;
@@ -48,7 +58,7 @@ class Arkdelegates extends App {
               font-size: 0.95rem;
             }
 
-            div {
+            * {
               box-sizing: border-box;
             }
 

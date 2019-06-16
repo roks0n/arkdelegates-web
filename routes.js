@@ -9,3 +9,4 @@ routes
     pattern: '/delegate/:slug/contributions',
   })
   .add({ name: 'delegate-news', page: 'delegate', pattern: '/delegate/:slug/news' })
+  .add({ name: 'claim-delegate', page: 'auth/claim', pattern: '/auth/claim/:slug' })

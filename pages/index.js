@@ -3,7 +3,7 @@ import Head from 'next/head'
 import fetch from 'isomorphic-unfetch'
 import styled from '@emotion/styled'
 import BigNumber from 'bignumber.js'
-import { COLOR_BLACK, COLOR_WHITE } from '../constants'
+import { COLOR_BLACK, COLOR_WHITE, API_URL } from '../constants'
 import UpdateCard from '../components/UpdateCard'
 import DelegateCard from '../components/DelegateCard'
 
@@ -49,9 +49,9 @@ const Box = styled.div`
 class Home extends React.Component {
   static async getInitialProps() {
     const results = await Promise.all([
-      fetch('https://arkdelegates.io/api/contributions/?limit=5'),
-      fetch('https://arkdelegates.io/api/news/?limit=5'),
-      fetch('https://arkdelegates.io/api/delegates/?latest=1'),
+      fetch(`${API_URL}contributions/?limit=5`),
+      fetch(`${API_URL}news/?limit=5`),
+      fetch(`${API_URL}delegates/?latest=1`),
     ])
     const [contributions, news, latest] = await Promise.all(results.map((res) => res.json()))
     return { contributions: contributions.data, news: news.data, latest: latest.data }

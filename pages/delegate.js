@@ -12,7 +12,14 @@ import { checkmark } from 'react-icons-kit/icomoon/checkmark'
 import { ic_info } from 'react-icons-kit/md/ic_info'
 import { cross } from 'react-icons-kit/icomoon/cross'
 import { certificate } from 'react-icons-kit/fa/certificate'
-import { COLOR_BLACK, COLOR_WHITE, COLOR_LIGHT_BLUE, COLOR_RED, COLOR_GREEN } from '../constants'
+import {
+  COLOR_BLACK,
+  COLOR_WHITE,
+  COLOR_LIGHT_BLUE,
+  COLOR_RED,
+  COLOR_GREEN,
+  API_URL,
+} from '../constants'
 import showdown from 'showdown'
 import Floater from 'react-floater'
 
@@ -202,22 +209,20 @@ class Delegate extends React.Component {
       return {}
     }
     // TODO: do requests in parallel
-    const delegate = await fetch(`https://arkdelegates.io/api/delegates/${query.slug}/`).then(
-      (res) => res.json()
-    )
+    const delegate = await fetch(`${API_URL}delegates/${query.slug}/`).then((res) => res.json())
 
     let pageType = 'proposal'
     let content = null
     if (ctx.asPath.includes('contributions')) {
-      const contributions = await fetch(
-        `https://arkdelegates.io/api/contributions?delegate_slug=${query.slug}`
-      ).then((res) => res.json())
+      const contributions = await fetch(`${API_URL}contributions?delegate_slug=${query.slug}`).then(
+        (res) => res.json()
+      )
       content = contributions.data
       pageType = 'contributions'
     } else if (ctx.asPath.includes('news')) {
-      const contributions = await fetch(
-        `https://arkdelegates.io/api/news?delegate_slug=${query.slug}`
-      ).then((res) => res.json())
+      const contributions = await fetch(`${API_URL}news?delegate_slug=${query.slug}`).then((res) =>
+        res.json()
+      )
       content = contributions.data
       pageType = 'news'
     }
