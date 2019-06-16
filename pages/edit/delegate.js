@@ -86,7 +86,7 @@ const TabElement = styled.li`
   float: left;
   margin-right: 1em;
   cursor: pointer;
-  font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
+  font-weight: ${(props) => (props.isSelected ? 'bold' : 'normal')};
 `
 
 const CreateButton = styled.div`
