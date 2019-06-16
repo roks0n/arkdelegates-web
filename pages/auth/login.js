@@ -23,7 +23,7 @@ const Form = styled.form`
   }
 
   input[type='email'],
-  input[name='username'],
+  input[name='email'],
   input[type='password'],
   textarea {
     width: 100%;
@@ -63,7 +63,7 @@ const GeneralErrorMsg = styled.div`
 class Login extends Component {
   constructor(props) {
     super(props)
-    this.state = { username: '', password: '', errors: {} }
+    this.state = { email: '', password: '', errors: {} }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -75,7 +75,7 @@ class Login extends Component {
   async handleSubmit(event) {
     event.preventDefault()
     this.setState({ error: '' })
-    const username = this.state.username
+    const email = this.state.email
     const password = this.state.password
 
     const url = `${API_URL}auth/login/`
@@ -84,11 +84,11 @@ class Login extends Component {
       const [data, status] = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       }).then(async (res) => [await res.json(), res.status])
 
       if (status === 200 && data.token) {
-        login({ token: data.token, username: data.user.username })
+        login({ token: data.token, email: data.user.email })
       } else {
         this.setState({ errors: data })
       }
@@ -108,14 +108,9 @@ class Login extends Component {
         <Title>Login</Title>
 
         <Form onSubmit={this.handleSubmit}>
-          <label>Username</label>
-          <input
-            type="text"
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-          />
-          {this.state.errors.username ? <ErrorMsg>{this.state.errors.username}</ErrorMsg> : null}
+          <label>Email</label>
+          <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
+          {this.state.errors.email ? <ErrorMsg>{this.state.errors.email}</ErrorMsg> : null}
 
           <label>Password</label>
           <input
