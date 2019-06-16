@@ -208,8 +208,8 @@ class EditDelegate extends React.Component {
       if (response.ok) {
         const delegate = await response.json()
         const results = await Promise.all([
-          fetch(`${API_URL}news/${delegate.slug}/`),
-          fetch(`${API_URL}contributions/${delegate.slug}/`),
+          fetch(`${API_URL}news/?delegate_slug=${delegate.slug}`),
+          fetch(`${API_URL}contributions/?delegate_slug=${delegate.slug}`),
         ])
         const [news, contributions] = await Promise.all(results.map((res) => res.json()))
         return { delegate, token, news: news.data, contributions: contributions.data }
@@ -233,7 +233,7 @@ class EditDelegate extends React.Component {
       payout_covering_fee,
       is_private,
     } = this.props.delegate
-    console.log('>>> is_private', is_private)
+
     this.setState({
       isPrivate: is_private,
       payoutPercent: payout_percent,
@@ -253,16 +253,16 @@ class EditDelegate extends React.Component {
   }
 
   async refreshNews() {
-    const news = await fetch(`${API_URL}news/${this.props.delegate.slug}/`).then((res) =>
-      res.json()
+    const news = await fetch(`${API_URL}news/?delegate_slug=${this.props.delegate.slug}`).then(
+      (res) => res.json()
     )
     this.setState({ news: news.data })
   }
 
   async refreshContributions() {
-    const contributions = await fetch(`${API_URL}contributions/${this.props.delegate.slug}/`).then(
-      (res) => res.json()
-    )
+    const contributions = await fetch(
+      `${API_URL}contributions/?delegate_slug=${this.props.delegate.slug}`
+    ).then((res) => res.json())
     this.setState({ contributions: contributions.data })
   }
 
