@@ -14,20 +14,20 @@ const Container = styled.div`
 `
 
 const Title = styled.h4`
-  width: 100%;
+  width: 90%;
   margin: 0 0 0.5em 0;
 `
 
 const P = styled.p`
   margin: 0 0 0.7em 0;
   padding: 0;
-  width: 100%;
+  width: 90%;
 `
 
 const DateTime = styled.p`
   margin: 0;
   padding: 0;
-  width: 100%;
+  width: 90%;
   color: #9ea0a5;
   font-size: 0.8em;
 `
@@ -41,7 +41,7 @@ const ActionIcon = styled.div`
 
 const DeleteIcon = styled.div`
   position: absolute;
-  top: 30px;
+  top: 50px;
   right: 10px;
   cursor: pointer;
 `
