@@ -86,6 +86,7 @@ const TabElement = styled.li`
   float: left;
   margin-right: 1em;
   cursor: pointer;
+  font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
 `
 
 const CreateButton = styled.div`
@@ -95,6 +96,11 @@ const CreateButton = styled.div`
   background: #cacaca;
   display: table;
   cursor: pointer;
+`
+
+const Label = styled.div`
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
 `
 
 class EditDelegate extends React.Component {
@@ -111,7 +117,6 @@ class EditDelegate extends React.Component {
     } else {
       await this.setState({ [event.target.name]: event.target.value })
     }
-    console.log(this.state)
   }
 
   async handlePayoutSubmit(event) {
@@ -161,7 +166,6 @@ class EditDelegate extends React.Component {
       if (response.status === 201) {
         alert('Proposal updated')
       } else if (response.status >= 400) {
-        console.log('error data', data)
         this.setState({ errorsProposal: data })
       }
     } catch (error) {
@@ -296,7 +300,10 @@ class EditDelegate extends React.Component {
               token={this.props.token}
               type="news"
               canEdit={item.canEdit || false}
-              onDeleted={() => this.refreshNews()}
+              onDeleted={() => {
+                this.setState({ showAddNews: true })
+                this.refreshNews()
+              }}
               onCreated={() => {
                 this.setState({ showAddNews: true })
                 this.refreshNews()
@@ -324,7 +331,10 @@ class EditDelegate extends React.Component {
               token={this.props.token}
               type="contributions"
               canEdit={contribution.canEdit || false}
-              onDeleted={() => this.refreshContributions()}
+              onDeleted={() => {
+                this.setState({ showAddContributions: true })
+                this.refreshContributions()
+              }}
               onCreated={() => {
                 this.setState({ showAddContributions: true })
                 this.refreshContributions()
@@ -349,7 +359,7 @@ class EditDelegate extends React.Component {
         <PayoutsForm onSubmit={this.handlePayoutSubmit}>
           <PayoutsContainer>
             <PayoutGroup>
-              <label>Private delegate?</label>
+              <Label>Private delegate?</Label>
               <input
                 type="checkbox"
                 name="isPrivate"
@@ -361,7 +371,7 @@ class EditDelegate extends React.Component {
               ) : null}
             </PayoutGroup>
             <PayoutGroup>
-              <label>Payout %</label>
+              <Label>Payout %</Label>
               <input
                 type="number"
                 name="payoutPercent"
@@ -376,7 +386,7 @@ class EditDelegate extends React.Component {
             </PayoutGroup>
 
             <PayoutGroup>
-              <label>Payout min</label>
+              <Label>Payout min amount</Label>
               <input
                 type="number"
                 name="payoutMin"
@@ -389,7 +399,7 @@ class EditDelegate extends React.Component {
             </PayoutGroup>
 
             <PayoutGroup>
-              <label>Payout max</label>
+              <Label>Payout max amount</Label>
               <input
                 type="number"
                 name="payoutMax"
@@ -402,7 +412,7 @@ class EditDelegate extends React.Component {
             </PayoutGroup>
 
             <PayoutGroup>
-              <label>Payout interval</label>
+              <Label>Payout interval (in hours)</Label>
               <input
                 type="number"
                 name="payoutInterval"
@@ -421,11 +431,22 @@ class EditDelegate extends React.Component {
         <hr />
 
         <TabContainer>
-          <TabElement onClick={() => this.setState({ selectedTab: 'proposal' })}>
+          <TabElement
+            isSelected={this.state.selectedTab === 'proposal'}
+            onClick={() => this.setState({ selectedTab: 'proposal' })}
+          >
             Proposal
           </TabElement>
-          <TabElement onClick={() => this.setState({ selectedTab: 'news' })}>News</TabElement>
-          <TabElement onClick={() => this.setState({ selectedTab: 'contributions' })}>
+          <TabElement
+            isSelected={this.state.selectedTab === 'news'}
+            onClick={() => this.setState({ selectedTab: 'news' })}
+          >
+            News
+          </TabElement>
+          <TabElement
+            isSelected={this.state.selectedTab === 'contributions'}
+            onClick={() => this.setState({ selectedTab: 'contributions' })}
+          >
             Contributions
           </TabElement>
         </TabContainer>

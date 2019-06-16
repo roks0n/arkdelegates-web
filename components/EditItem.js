@@ -11,23 +11,21 @@ const Container = styled.div`
   text-decoration: none;
   color: ${COLOR_BLACK};
   margin-bottom: 0.5em;
+  padding-right: 90px;
 `
 
 const Title = styled.h4`
-  width: 90%;
   margin: 0 0 0.5em 0;
 `
 
 const P = styled.p`
   margin: 0 0 0.7em 0;
   padding: 0;
-  width: 90%;
 `
 
 const DateTime = styled.p`
   margin: 0;
   padding: 0;
-  width: 90%;
   color: #9ea0a5;
   font-size: 0.8em;
 `
@@ -47,13 +45,13 @@ const DeleteIcon = styled.div`
 `
 
 const TitleInput = styled.input`
-  width: 90%;
+  width: 100%;
   margin: 0 0 0.5em 0;
   padding: 0.25em;
 `
 
 const DescriptionInput = styled.textarea`
-  width: 90%;
+  width: 100%;
   margin: 0 0 0.7em 0;
   padding: 0.25em;
 `
@@ -66,6 +64,12 @@ const GeneralErrorMsg = styled.div`
   padding: 5px;
   color: white;
   font-size: 0.85em;
+`
+
+const Label = styled.label`
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  margin-right: 0.5em;
 `
 
 class EditItem extends React.Component {
@@ -149,6 +153,11 @@ class EditItem extends React.Component {
   }
 
   async onDelete() {
+    if (!this.props.id) {
+      await this.props.onDeleted()
+      return
+    }
+
     try {
       const response = await fetch(`${API_URL}${this.props.type}/${this.state.id}/`, {
         method: 'DELETE',
@@ -174,20 +183,27 @@ class EditItem extends React.Component {
     let descriptionEl = <P>{this.state.description}</P>
     if (this.state.canEdit) {
       titleEl = (
-        <TitleInput
-          type="text"
-          name="title"
-          max="256"
-          value={this.state.title}
-          onChange={this.handleChange}
-        />
+        <div style={{ display: 'flex' }}>
+          <Label>Title:</Label>
+          <TitleInput
+            type="text"
+            name="title"
+            max="256"
+            value={this.state.title}
+            onChange={this.handleChange}
+          />
+        </div>
       )
       descriptionEl = (
-        <DescriptionInput
-          name="description"
-          value={this.state.description}
-          onChange={this.handleChange}
-        />
+        <div style={{ display: 'flex' }}>
+          <Label>Description:</Label>
+          <DescriptionInput
+            name="description"
+            rows="3"
+            value={this.state.description}
+            onChange={this.handleChange}
+          />
+        </div>
       )
     }
 
@@ -198,10 +214,12 @@ class EditItem extends React.Component {
           <GeneralErrorMsg>{this.state.errors.title}</GeneralErrorMsg>
         ) : null}
         {descriptionEl}
-        {this.state.errors.description ? (
-          <GeneralErrorMsg>{this.state.errors.description}</GeneralErrorMsg>
+        {this.state.errors.description || this.state.errors.message ? (
+          <GeneralErrorMsg>
+            {this.state.errors.description || this.state.errors.message}
+          </GeneralErrorMsg>
         ) : null}
-        <DateTime>Published: {this.state.created}</DateTime>
+        <DateTime>Published on {this.state.created}</DateTime>
         {!this.state.canEdit ? (
           <ActionIcon onClick={() => this.setState({ canEdit: true })}>✏️ Edit</ActionIcon>
         ) : null}

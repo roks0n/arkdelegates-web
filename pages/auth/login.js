@@ -88,7 +88,7 @@ class Login extends Component {
       }).then(async (res) => [await res.json(), res.status])
 
       if (status === 200 && data.token) {
-        login({ token: data.token, email: data.user.email })
+        login({ token: data.token, username: data.user.username })
       } else {
         this.setState({ errors: data })
       }
