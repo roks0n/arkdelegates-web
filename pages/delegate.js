@@ -274,9 +274,8 @@ class Delegate extends React.Component {
     } = this.props
 
     const voteWeight = new BigNumber(votingPower).div(100000000).toFormat(0)
-    // have to div by 10000, because I made a derp when storing data
-    const payoutMinimum = payoutMin ? new BigNumber(payoutMin).div(10000).toFormat() : 0
-    const payoutMaximum = payoutMax ? new BigNumber(payoutMax).div(10000).toFormat() : 0
+    const payoutMinimum = payoutMin ? new BigNumber(payoutMin).div(100000000).toFormat() : 0
+    const payoutMaximum = payoutMax ? new BigNumber(payoutMax).div(100000000).toFormat() : 0
 
     const tabItems = [
       {
