@@ -210,7 +210,7 @@ function DelegateCard({
         <Data>
           <DataInner>
             <H4>Vote weight</H4>
-            <P>{voteWeight}</P>
+            <P>{voteWeight}Ѧ</P>
           </DataInner>
         </Data>
         <Data>

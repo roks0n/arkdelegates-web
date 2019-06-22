@@ -273,7 +273,7 @@ class Delegate extends React.Component {
       pageType,
     } = this.props
 
-    const voteWeight = new BigNumber(votingPower).div(100000000).toFormat(0)
+    const voteWeight = votingPower ? new BigNumber(votingPower).div(100000000).toFormat(0) : 0
     const payoutMinimum = payoutMin ? new BigNumber(payoutMin).div(100000000).toFormat() : 0
     const payoutMaximum = payoutMax ? new BigNumber(payoutMax).div(100000000).toFormat() : 0
 
@@ -457,7 +457,7 @@ class Delegate extends React.Component {
                 <Data>
                   <DataInner>
                     <H4>Vote weight</H4>
-                    <P>{voteWeight}</P>
+                    <P>{voteWeight}Ѧ</P>
                   </DataInner>
                 </Data>
                 <Data>
@@ -499,19 +499,19 @@ class Delegate extends React.Component {
                 <Data>
                   <DataInner>
                     <H4>Payout min</H4>
-                    <P>{payoutMinimum}</P>
+                    <P>{payoutMinimum}Ѧ</P>
                   </DataInner>
                 </Data>
                 <Data>
                   <DataInner>
                     <H4>Payout max</H4>
-                    <P>{payoutMaximum}</P>
+                    <P>{payoutMaximum}Ѧ</P>
                   </DataInner>
                 </Data>
                 <Data>
                   <DataInner>
                     <H4>Payout interval</H4>
-                    <P>{payoutInterval ? payoutInterval : `unknown`}</P>
+                    <P>{payoutInterval ? `${payoutInterval}h` : `unknown`}</P>
                   </DataInner>
                 </Data>
               </Container>
