@@ -36,7 +36,7 @@ function Footer() {
     <Container>
       <Inner>
         <P>
-          <Link href="/auth/login" passHref>
+          <Link href="/auth/login/" passHref>
             <A>Delegate Login</A>
           </Link>{' '}
           |{' '}
