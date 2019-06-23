@@ -6,6 +6,7 @@ import styled from '@emotion/styled'
 import BigNumber from 'bignumber.js'
 import logo from '../components/ark-logo-light-bg.svg'
 import TabNav from '../components/TabNav'
+import { Link } from '../routes'
 import DelegateUpdateCard from '../components/DelegateUpdateCard'
 import { Icon } from 'react-icons-kit'
 import { checkmark } from 'react-icons-kit/icomoon/checkmark'
@@ -195,6 +196,21 @@ const Content = styled.div`
 
   img {
     width: 100%;
+  }
+`
+
+const NotClaimedAlert = styled.div`
+  display: flex;
+  padding: 1em;
+  background: ${COLOR_RED};
+  color: ${COLOR_WHITE};
+  border-radius: 5px;
+  margin-top: 1.5em;
+
+  p {
+    margin: 0;
+    padding: 0;
+    font-size: 0.9em;
   }
 `
 
@@ -406,6 +422,25 @@ class Delegate extends React.Component {
         break
     }
 
+    let notClaimedAccountAlert = null
+    if (!isAccountClaimed) {
+      notClaimedAccountAlert = (
+        <NotClaimedAlert>
+          <p>
+            This delegate account hasn't been claimed which means it can have missing or incomplete
+            data. Ask your delegate to claim his account and fill in the details. If you wish to
+            claim this account you can do so{' '}
+            <Link route={'claim-delegate'} params={{ slug }} passHref>
+              <a style={{ color: 'white', fontWeight: 'bold', textDecoration: 'none' }}>
+                on claim account page
+              </a>
+            </Link>
+            .
+          </p>
+        </NotClaimedAlert>
+      )
+    }
+
     return (
       <React.Fragment>
         <Head>
@@ -424,6 +459,9 @@ class Delegate extends React.Component {
             </Address>
           </div>
         </Item>
+
+        {notClaimedAccountAlert}
+
         <Row>
           <TwoColumns>
             <Box>
