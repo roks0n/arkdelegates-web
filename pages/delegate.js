@@ -214,14 +214,14 @@ class Delegate extends React.Component {
     let pageType = 'proposal'
     let content = null
     if (ctx.asPath.includes('contributions')) {
-      const contributions = await fetch(`${API_URL}contributions?delegate_slug=${query.slug}`).then(
-        (res) => res.json()
-      )
+      const contributions = await fetch(
+        `${API_URL}contributions?delegate_slug=${query.slug}&limit=50`
+      ).then((res) => res.json())
       content = contributions.data
       pageType = 'contributions'
     } else if (ctx.asPath.includes('news')) {
-      const contributions = await fetch(`${API_URL}news?delegate_slug=${query.slug}`).then((res) =>
-        res.json()
+      const contributions = await fetch(`${API_URL}news?delegate_slug=${query.slug}&limit=50`).then(
+        (res) => res.json()
       )
       content = contributions.data
       pageType = 'news'
