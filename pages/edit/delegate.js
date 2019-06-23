@@ -8,7 +8,9 @@ import { withAuthSync, logout } from '../../modules/auth'
 import EditItem from '../../components/EditItem'
 
 const PayoutsForm = styled.form`
-  margin-bottom: 3em;
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 1em;
 
   label {
     text-align: left;
@@ -20,15 +22,16 @@ const PayoutsForm = styled.form`
   input[type='number'] {
     width: 150px;
     display: block;
-    margin-bottom: 1em;
+    margin-bottom: 0.3em;
     padding: 0.5em;
     border: 1px solid #cacaca;
   }
 
   input[type='submit'],
   button[type='submit'] {
-    float: right;
     padding: 0.5em 0.5em 0.45em;
+    margin-top: 1em;
+    align-self: flex-end;
   }
 `
 
@@ -379,6 +382,7 @@ class EditDelegate extends React.Component {
                 min="0"
                 value={this.state.payoutPercent}
                 onChange={this.handleChange}
+                placeholder="eg. 85"
               />
               {this.state.errorsPayout.payout_percent ? (
                 <ErrorMsg>{this.state.errorsPayout.payout_percent}</ErrorMsg>
@@ -392,10 +396,12 @@ class EditDelegate extends React.Component {
                 name="payoutMin"
                 value={this.state.payoutMin}
                 onChange={this.handleChange}
+                placeholder="eg. 10000"
               />
               {this.state.errorsPayout.payout_minimum ? (
                 <ErrorMsg>{this.state.errorsPayout.payout_minimum}</ErrorMsg>
               ) : null}
+              <small>In arktoshis</small>
             </PayoutGroup>
 
             <PayoutGroup>
@@ -405,23 +411,27 @@ class EditDelegate extends React.Component {
                 name="payoutMax"
                 value={this.state.payoutMax}
                 onChange={this.handleChange}
+                placeholder="eg. 10000"
               />
               {this.state.errorsPayout.payout_maximum ? (
                 <ErrorMsg>{this.state.errorsPayout.payout_maximum}</ErrorMsg>
               ) : null}
+              <small>In arktoshis</small>
             </PayoutGroup>
 
             <PayoutGroup>
-              <Label>Payout interval (in hours)</Label>
+              <Label>Payout interval</Label>
               <input
                 type="number"
                 name="payoutInterval"
                 value={this.state.payoutInterval}
                 onChange={this.handleChange}
+                placeholder="eg. 24"
               />
               {this.state.errorsPayout.payout_maximum ? (
                 <ErrorMsg>{this.state.errorsPayout.payout_interval}</ErrorMsg>
               ) : null}
+              <small>In hours</small>
             </PayoutGroup>
           </PayoutsContainer>
 

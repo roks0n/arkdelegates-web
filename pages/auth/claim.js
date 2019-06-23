@@ -130,7 +130,7 @@ class ClaimDelegate extends React.Component {
     }
 
     if (status == 200 && response.token) {
-      login({ token: response.token })
+      login({ token: response.token, username: response.user.username })
     }
   }
 
