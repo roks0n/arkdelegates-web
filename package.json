@@ -4,8 +4,8 @@
   "description": "Front-end code for arkdelegates.io",
   "scripts": {
     "dev": "API_URL=http://localhost:5000/api/ node server.js",
-    "build": "API_URL=https://arkdelegates.io/api/ next build",
-    "start": "API_URL=https://arkdelegates.io/api/ PORT=8080 NODE_ENV=production node server.js",
+    "build": "API_URL=https://api.arkdelegates.io/api/ next build",
+    "start": "API_URL=https://api.arkdelegates.io/api/ PORT=8080 NODE_ENV=production node server.js",
     "lint": "eslint ."
   },
   "author": "roks0n",

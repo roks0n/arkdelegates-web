@@ -45,6 +45,7 @@ class Delegates extends React.Component {
   }
 
   static async getInitialProps() {
+    console.log('getting initial props')
     const delegates = await fetch(`${API_URL}delegates/?page=1`).then((res) => res.json())
     return {
       delegates: delegates.data,
