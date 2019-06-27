@@ -45,7 +45,6 @@ class Delegates extends React.Component {
   }
 
   static async getInitialProps() {
-    console.log('getting initial props')
     const delegates = await fetch(`${API_URL}delegates/?page=1`).then((res) => res.json())
     return {
       delegates: delegates.data,
@@ -87,6 +86,7 @@ class Delegates extends React.Component {
       const voteWeight = new BigNumber(item.voting_power).div(100000000).toFormat(0)
       delegatesElements.push(
         <DelegateCard
+          key={item.id}
           avatar={null}
           rank={item.rank}
           slug={item.slug}
@@ -105,10 +105,10 @@ class Delegates extends React.Component {
     return (
       <React.Fragment>
         <Head>
-          <title>ARK delegates - Find and follow ARK delegates</title>
+          <title>List of ARK delegates @ ARKdelegates.io</title>
           <meta
             name="description"
-            content="Find ARK delegates you want to support. See what they are doing, what have they done and follow their progress."
+            content="List of all registered ARK delegates. Compare them, check their contributions, stats and more!"
           />
         </Head>
         <Row>

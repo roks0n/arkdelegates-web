@@ -2,8 +2,8 @@ const nextRoutes = require('next-routes')
 const routes = (module.exports = nextRoutes())
 
 routes
-  .add('delegates', '/delegates/')
-  .add('delegate', '/delegate/:slug/')
+  .add({ name: 'delegates', page: 'delegates', pattern: '/delegates/' })
+  .add({ name: 'delegate', page: 'delegate', pattern: '/delegate/:slug/' })
   .add({
     name: 'delegate-contributions',
     page: 'delegate',

@@ -296,19 +296,19 @@ class Delegate extends React.Component {
     const tabItems = [
       {
         name: 'Proposal',
-        href: `${pathName}/${slug}`,
+        href: `${pathName}/${slug}/`,
         routeName: 'delegate',
         slug: slug,
       },
       {
         name: 'Contributions',
-        href: `${pathName}/${slug}/contributions`,
+        href: `${pathName}/${slug}/contributions/`,
         routeName: 'delegate-contributions',
         slug: slug,
       },
       {
         name: 'News',
-        href: `${pathName}/${slug}/news`,
+        href: `${pathName}/${slug}/news/`,
         routeName: 'delegate-news',
         slug: slug,
       },

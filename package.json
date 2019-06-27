@@ -3,9 +3,9 @@
   "version": "0.9.0",
   "description": "Front-end code for arkdelegates.io",
   "scripts": {
-    "dev": "API_URL=http://localhost:5000/api/ node server.js",
+    "dev": "API_URL=http://localhost:5000/api/ node server/app.js",
     "build": "API_URL=https://api.arkdelegates.io/api/ next build",
-    "start": "API_URL=https://api.arkdelegates.io/api/ PORT=8080 NODE_ENV=production node server.js",
+    "start": "API_URL=https://api.arkdelegates.io/api/ PORT=8080 NODE_ENV=production node server/app.js",
     "lint": "eslint ."
   },
   "author": "roks0n",
@@ -17,6 +17,7 @@
     "babel-plugin-emotion": "^10.0.9",
     "bignumber.js": "^8.1.1",
     "dotenv": "^8.0.0",
+    "express": "^4.17.1",
     "imagemin-svgo": "^7.0.0",
     "install": "^0.12.2",
     "isomorphic-unfetch": "^3.0.0",

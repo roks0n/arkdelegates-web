@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '../../routes'
 import { withRouter } from 'next/router'
 import styled from '@emotion/styled'
 import { COLOR_RED, COLOR_WHITE } from '../../constants'
@@ -25,9 +25,10 @@ const NavLink = styled.a`
 `
 
 function ActiveLink({ children, router, href }) {
+  const pathname = router.pathname.substr(-1) != '/' ? `${router.pathname}/` : router.pathname
   return (
-    <Link href={href} passHref>
-      <NavLink isActive={router.pathname === href}>{children}</NavLink>
+    <Link route={href} passHref>
+      <NavLink isActive={pathname === href}>{children}</NavLink>
     </Link>
   )
 }
