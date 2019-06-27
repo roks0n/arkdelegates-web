@@ -1,5 +1,6 @@
 const express = require('express')
 const next = require('next')
+const sitemap = require('./sitemap')
 const routes = require('../routes')
 const parseURL = require('url').parse
 
@@ -8,9 +9,12 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handler = routes.getRequestHandler(app)
 
-app.prepare().then(() => {
+app.prepare().then(async () => {
   const server = express()
   server.enable('strict routing')
+
+  await sitemap({ server })
+
   server.use(slash())
 
   server.get('*', (req, res) => {
@@ -39,7 +43,7 @@ function slash(statusCode) {
       pathname = url.pathname,
       search = url.search || '',
       hasSlash = pathname.substr(-1) === '/',
-      isStatic = pathname.includes('_next')
+      isStatic = pathname.includes('_next') || pathname.includes('.xml')
 
     if (!hasSlash && !isStatic) {
       res.redirect(statusCode, `${pathname}/${search}`)
