@@ -430,7 +430,7 @@ class Delegate extends React.Component {
             This delegate account hasn't been claimed which means it can have missing or incomplete
             data. Ask your delegate to claim his account and fill in the details. If you wish to
             claim this account you can do so{' '}
-            <Link route={'claim-delegate'} params={{ slug }} passHref>
+            <Link route={'claim-delegate-account'} params={{ slug }} passHref>
               <a style={{ color: 'white', fontWeight: 'bold', textDecoration: 'none' }}>
                 on claim account page
               </a>

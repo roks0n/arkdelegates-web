@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import React from 'react'
+import Head from 'next/head'
 import Error from 'next/error'
 import { API_URL } from '../../constants'
 import fetch from 'isomorphic-unfetch'
@@ -145,7 +146,12 @@ class ClaimDelegate extends React.Component {
 
     return (
       <Container>
+        <Head>
+          <meta name="robots" content="noindex,nofollow,noarchive" />
+        </Head>
+
         <Title>Claim {this.props.slug} delegate</Title>
+
         <PinContainer>
           <PinTitle>Pin code:</PinTitle>
           {this.props.pin}

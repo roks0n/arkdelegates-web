@@ -52,6 +52,8 @@ class Arkdelegates extends App {
               color: ${COLOR_BLACK};
               height: 100%;
               min-height: 100%;
+              margin: 0;
+              padding: 0;
             }
 
             body {

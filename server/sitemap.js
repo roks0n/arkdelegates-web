@@ -7,7 +7,8 @@ const sitemap = sm.createSitemap({
   cacheTime: 14400000, // 4h - cache purge period
   urls: [
     { url: '/', changefreq: 'daily', priority: 1 },
-    { url: '/delegates/', changefreq: 'daily', priority: 0.7 },
+    { url: '/delegates/', changefreq: 'daily', priority: 0.8 },
+    { url: '/claim-delegate/', changefreq: 'weekly', priority: 0.8 },
   ],
 })
 
