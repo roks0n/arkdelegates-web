@@ -38,14 +38,14 @@ const Form = styled.form`
   input[type='submit'],
   button[type='submit'] {
     float: right;
-    padding: 0.7em 0.7em 0.75em;
+    padding: 0.7em 0.7em 0.65em;
   }
 `
 
 const ErrorMsg = styled.div`
   text-align: left;
   position: relative;
-  top: -12px;
+  top: -14px;
   background: #cc3300;
   padding: 5px;
   color: white;
@@ -65,7 +65,7 @@ const GeneralErrorMsg = styled.div`
 class ClaimDelegate extends Component {
   constructor(props) {
     super(props)
-    this.state = { email: '', password: '', errors: {} }
+    this.state = { delegate: '', errors: {} }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -78,6 +78,12 @@ class ClaimDelegate extends Component {
     event.preventDefault()
     this.setState({ error: '' })
     const delegate = this.state.delegate
+    if (!delegate) {
+      this.setState({
+        'errors': {delegate : `This field is required `}
+      })
+      return
+    }
 
     const url = `${API_URL}delegates/${delegate}/`
 
