@@ -45,7 +45,7 @@ const Form = styled.form`
 const ErrorMsg = styled.div`
   text-align: left;
   position: relative;
-  top: -14px;
+  top: -16px;
   background: #cc3300;
   padding: 5px;
   color: white;
