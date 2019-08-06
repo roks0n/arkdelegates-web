@@ -110,8 +110,7 @@ class EditDelegate extends React.Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
-    this.handlePayoutSubmit = this.handlePayoutSubmit.bind(this)
-    this.handleProposalSubmit = this.handleProposalSubmit.bind(this)
+    this.handleSave = this.handleSave.bind(this)
   }
 
   async handleChange(event) {
@@ -122,8 +121,21 @@ class EditDelegate extends React.Component {
     }
   }
 
-  async handlePayoutSubmit(event) {
+  async handleSave(event) {
     event.preventDefault()
+    this.setState({ errorsPayout: {}, errorsProposal: {} })
+
+    const [proposal, payout] = await Promise.all([this.proposalSubmit(), this.payoutSubmit()])
+    if (proposal && payout) {
+      alert('Changes successfully saved')
+    } else if (proposal && !payout) {
+      alert('There was an issue saving payout info')
+    } else if (!proposal && payout) {
+      alert('There was na issue saving the proposal')
+    }
+  }
+
+  async payoutSubmit() {
     this.setState({ errorsPayout: {} })
 
     try {
@@ -141,19 +153,18 @@ class EditDelegate extends React.Component {
           is_private: this.state.isPrivate,
         }),
       }).then(async (res) => [await res.json(), res])
-
       if (response.status === 201) {
-        alert('Payout info updated')
+        return true
       } else if (response.status >= 400) {
         this.setState({ errorsPayout: data })
       }
     } catch (error) {
       console.error('You have an error in your code or there are Network issues.', error)
     }
+    return false
   }
 
-  async handleProposalSubmit(event) {
-    event.preventDefault()
+  async proposalSubmit() {
     this.setState({ errorsProposal: {} })
 
     try {
@@ -167,13 +178,14 @@ class EditDelegate extends React.Component {
       }).then(async (res) => [await res.json(), res])
 
       if (response.status === 201) {
-        alert('Proposal updated')
+        return true
       } else if (response.status >= 400) {
         this.setState({ errorsProposal: data })
       }
     } catch (error) {
       console.error('You have an error in your code or there are Network issues.', error)
     }
+    return false
   }
 
   async addNews() {
@@ -275,14 +287,14 @@ class EditDelegate extends React.Component {
 
   render() {
     const proposalEl = (
-      <ProposalForm onSubmit={this.handleProposalSubmit}>
+      <ProposalForm onSubmit={this.handleSave}>
         <textarea
           rows="15"
           name="proposal"
           value={this.state.proposal}
           onChange={this.handleChange}
         />
-        <button type="submit">Save proposal</button>
+        <button type="submit">Save</button>
       </ProposalForm>
     )
 
@@ -359,7 +371,7 @@ class EditDelegate extends React.Component {
         <hr />
 
         <h3>Payout information</h3>
-        <PayoutsForm onSubmit={this.handlePayoutSubmit}>
+        <PayoutsForm onSubmit={this.handleSave}>
           <PayoutsContainer>
             <PayoutGroup>
               <Label>Private delegate?</Label>
@@ -435,7 +447,7 @@ class EditDelegate extends React.Component {
             </PayoutGroup>
           </PayoutsContainer>
 
-          <button type="submit">Save payout info</button>
+          <button type="submit">Save</button>
         </PayoutsForm>
 
         <hr />
